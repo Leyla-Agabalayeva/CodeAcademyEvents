@@ -1,0 +1,20 @@
+﻿@model CodeAcademyEvents.UI.Models.CheckInViewModel
+@{
+    ViewData["Title"] = "Check-in";
+}
+
+<h2>Tədbirə Check-in</h2>
+
+<form asp-controller="Participation" asp-action="CheckIn" method="post">
+    <div class="mb-3">
+        <label class="form-label">Dəvət nömrəniz (Invitation Id)</label>
+        <input asp-for="InvitationId" class="form-control" />
+        <span asp-validation-for="InvitationId" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Check-in et</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <div class="alert alert-info mt-3">@Model.Message</div>
+}

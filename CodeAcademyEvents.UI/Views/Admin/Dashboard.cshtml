@@ -1,0 +1,40 @@
+﻿@using CodeAcademyEvents.BLL.DTOs
+@model List<EventDto>
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<h2>Admin Panel</h2>
+
+<div class="mb-4">
+    <a asp-controller="Events" asp-action="Create" class="btn btn-primary">+ Yeni tədbir</a>
+    <a asp-controller="Locations" asp-action="Index" class="btn btn-outline-secondary">Məkanlar</a>
+    <a asp-controller="EventTypes" asp-action="Index" class="btn btn-outline-secondary">Tədbir tipləri</a>
+    <a asp-controller="Organizers" asp-action="Index" class="btn btn-outline-secondary">Təşkilatçılar</a>
+    <a asp-controller="Persons" asp-action="Index" class="btn btn-outline-secondary">Şəxslər</a>
+</div>
+
+<h4>Tədbirlər və statistika</h4>
+@foreach (var ev in Model)
+{
+    <div class="card mb-3 p-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <strong>@ev.Title</strong> — @ev.Date.ToString("dd.MM.yyyy HH:mm")
+                <br /><small class="text-muted">@ev.LocationName · @ev.EventTypeName</small>
+            </div>
+            <div>
+                <a asp-controller="Events" asp-action="Edit" asp-route-id="@ev.Id" class="btn btn-sm btn-outline-secondary">Redaktə</a>
+                <a asp-controller="Events" asp-action="Details" asp-route-id="@ev.Id" class="btn btn-sm btn-outline-primary">Ətraflı</a>
+            </div>
+        </div>
+        <div class="mt-2">
+            @await Component.InvokeAsync("EventStatistics", new { eventId = ev.Id })
+        </div>
+    </div>
+}
+
+@if (!Model.Any())
+{
+    <p class="text-muted">Hələ heç bir tədbir yoxdur. Yuxarıdakı düymələrdən əvvəlcə Məkan, Tədbir tipi və Təşkilatçı əlavə edin, sonra tədbir yaradın.</p>
+}

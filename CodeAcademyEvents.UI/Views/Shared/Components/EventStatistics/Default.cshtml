@@ -1,0 +1,34 @@
+﻿@model CodeAcademyEvents.BLL.DTOs.EventStatisticsDto
+
+<div class="row g-3 text-center">
+    <div class="col-6 col-md">
+        <div class="p-3 bg-brand-soft rounded-3">
+            <h5 class="text-brand mb-0">@Model.TotalInvited</h5>
+            <small class="text-muted">Dəvət göndərilib</small>
+        </div>
+    </div>
+    <div class="col-6 col-md">
+        <div class="p-3 bg-brand-soft rounded-3">
+            <h5 class="text-brand mb-0">@Model.TotalAccepted</h5>
+            <small class="text-muted">Qəbul edib</small>
+        </div>
+    </div>
+    <div class="col-6 col-md">
+        <div class="p-3 bg-brand-soft rounded-3">
+            <h5 class="text-brand mb-0">@Model.TotalRejected</h5>
+            <small class="text-muted">Rədd edib</small>
+        </div>
+    </div>
+    <div class="col-6 col-md">
+        <div class="p-3 bg-brand-soft rounded-3">
+            <h5 class="text-brand mb-0">@Model.TotalCheckedIn</h5>
+            <small class="text-muted">Check-in edib</small>
+        </div>
+    </div>
+    <div class="col-6 col-md">
+        <div class="p-3 bg-brand-soft rounded-3">
+            <h5 class="text-brand mb-0">@Model.AverageRating / 5</h5>
+            <small class="text-muted">Orta reytinq (@Model.FeedbackCount rəy)</small>
+        </div>
+    </div>
+</div>

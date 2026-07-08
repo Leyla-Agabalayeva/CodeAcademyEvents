@@ -1,0 +1,26 @@
+﻿@using CodeAcademyEvents.DAL.Entities
+@model Organizer
+@{
+    ViewData["Title"] = Model.Id == 0 ? "Yeni təşkilatçı" : "Təşkilatçını redaktə et";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-controller="Organizers" asp-action="Save" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label class="form-label">Ad Soyad</label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input asp-for="Email" class="form-control" type="email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Yadda saxla</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Ləğv et</a>
+</form>

@@ -1,0 +1,65 @@
+﻿@model CodeAcademyEvents.BLL.DTOs.EventDto
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="card p-4 mb-4">
+    <span class="event-date-badge align-self-start">@Model.Date.ToString("dd.MM.yyyy HH:mm")</span>
+    <h2 class="mb-2">@Model.Title</h2>
+    <p class="text-muted">@Model.Description</p>
+
+    <div class="row g-3 mt-2">
+        <div class="col-sm-4">
+            <div class="small text-uppercase text-muted">Məkan</div>
+            <div class="fw-semibold">@Model.LocationName</div>
+        </div>
+        <div class="col-sm-4">
+            <div class="small text-uppercase text-muted">Tip</div>
+            <div class="fw-semibold">@Model.EventTypeName</div>
+        </div>
+        <div class="col-sm-4">
+            <div class="small text-uppercase text-muted">Təşkilatçı</div>
+            <div class="fw-semibold">@Model.OrganizerName</div>
+        </div>
+    </div>
+
+    <a asp-controller="Feedback" asp-action="Create" asp-route-eventId="@Model.Id" class="btn btn-outline-primary mt-4 align-self-start">
+        Rəy bildir
+    </a>
+</div>
+
+@if (User.IsInRole("Admin"))
+{
+    var persons = ViewBag.Persons as List<CodeAcademyEvents.DAL.Entities.Person>;
+    <div class="card p-4 mb-4">
+        <h4 class="mb-3">Qonaq dəvət et</h4>
+        @if (persons == null || !persons.Any())
+        {
+            <p class="text-muted mb-0">
+                Hələ ki, sistemdə heç bir şəxs yoxdur. Qonaqlar "Qeydiyyat" vasitəsilə hesab yaradıb rəy bildirən kimi
+                avtomatik "Şəxslər" siyahısına düşür — və ya "İdarəetmə → Şəxslər" bölməsindən əl ilə əlavə edə bilərsiniz.
+            </p>
+        }
+        else
+        {
+            <form asp-controller="Invitations" asp-action="Send" method="post" class="d-flex flex-wrap gap-2 align-items-end">
+                <input type="hidden" name="eventId" value="@Model.Id" />
+                <div class="flex-grow-1" style="min-width:220px;">
+                    <label class="form-label">Şəxs seçin</label>
+                    <select name="personId" class="form-select" required>
+                        @foreach (var p in persons)
+                        {
+                            <option value="@p.Id">@p.Name @p.Surname (@p.Email)</option>
+                        }
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Dəvət göndər</button>
+            </form>
+        }
+    </div>
+}
+
+<div class="card p-4">
+    <h4 class="mb-3">Tədbir Statistikası</h4>
+    @await Component.InvokeAsync("EventStatistics", new { eventId = Model.Id })
+</div>

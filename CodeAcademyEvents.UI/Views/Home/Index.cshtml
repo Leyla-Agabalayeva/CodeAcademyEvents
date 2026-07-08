@@ -1,0 +1,95 @@
+﻿@model List<CodeAcademyEvents.BLL.DTOs.EventDto>
+@{
+    ViewData["Title"] = "Home Page";
+    var totalEvents = ViewData["TotalEvents"];
+    var upcomingCount = ViewData["UpcomingCount"];
+}
+
+<section class="hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 mb-3">Tədbirlərinizi bir yerdən idarə edin</h1>
+                <p class="lead">
+                    CodeAcademy Events — tədbir yaratmaq, qonaqları dəvət etmək, check-in aparmaq və
+                    nəticələri izləmək üçün vahid platforma.
+                </p>
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                    <a asp-controller="Events" asp-action="Index" class="btn btn-light btn-lg text-brand">Tədbirlərə bax</a>
+                    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-light btn-lg">Qeydiyyatdan keç</a>
+                </div>
+
+                <div class="row hero-stats g-3">
+                    <div class="col-6 col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-number">@totalEvents</div>
+                            <div class="stat-label">Ümumi tədbir</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-number">@upcomingCount</div>
+                            <div class="stat-label">Yaxınlaşan tədbir</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container section-lift">
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card h-100 p-4">
+                <div class="feature-icon">1</div>
+                <h5>Tədbir yaradın</h5>
+                <p class="text-muted mb-0">Məkan, tip və təşkilatçı seçərək bir neçə addımda yeni tədbir əlavə edin.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 p-4">
+                <div class="feature-icon">2</div>
+                <h5>Qonaqları dəvət edin</h5>
+                <p class="text-muted mb-0">Dəvətlər avtomatik olaraq qonağın e-poçtuna göndərilir, cavab statusu izlənilir.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 p-4">
+                <div class="feature-icon">3</div>
+                <h5>Check-in və statistika</h5>
+                <p class="text-muted mb-0">Tədbir günü check-in aparın, real vaxtda iştirak və rəy statistikasını görün.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-end mb-3">
+        <h2 class="mb-0">Yaxınlaşan tədbirlər</h2>
+        <a asp-controller="Events" asp-action="Index" class="text-brand fw-semibold">Hamısına bax &rarr;</a>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row g-4 mb-5">
+            @foreach (var ev in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card event-card h-100">
+                        <div class="card-body">
+                            <span class="event-date-badge">@ev.Date.ToString("dd MMM, HH:mm")</span>
+                            <h5 class="card-title">@ev.Title</h5>
+                            <p class="card-meta mb-3">@ev.LocationName &middot; @ev.EventTypeName</p>
+                            <a asp-controller="Events" asp-action="Details" asp-route-id="@ev.Id" class="btn btn-outline-primary btn-sm">Ətraflı bax</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="card p-4 text-center text-muted mb-5">
+            Hələ ki, planlaşdırılan tədbir yoxdur.
+        </div>
+    }
+</div>

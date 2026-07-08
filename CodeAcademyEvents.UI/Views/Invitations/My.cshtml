@@ -1,0 +1,72 @@
+﻿@model List<CodeAcademyEvents.UI.Models.InvitationListItemViewModel>
+@{
+    ViewData["Title"] = "Dəvətlərim";
+}
+
+<h2>Dəvətlərim</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="card p-4 text-center text-muted">
+        Hələ ki, heç bir dəvətiniz yoxdur.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>Tədbir</th>
+                    <th>Tarix</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var inv in Model)
+                {
+                    <tr>
+                        <td>@inv.EventTitle</td>
+                        <td>@inv.EventDate.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>
+                            @switch (inv.Status)
+                            {
+                                case CodeAcademyEvents.DAL.Entities.InvitationStatus.Accepted:
+                                    <span class="badge-brand">Qəbul edilib</span>
+                                    break;
+                                case CodeAcademyEvents.DAL.Entities.InvitationStatus.Rejected:
+                                    <span class="badge bg-secondary">Rədd edilib</span>
+                                    break;
+                                default:
+                                    <span class="badge bg-warning text-dark">Cavab gözlənilir</span>
+                                    break;
+                            }
+                        </td>
+                        <td class="d-flex gap-2 flex-wrap">
+                            @if (inv.Status == CodeAcademyEvents.DAL.Entities.InvitationStatus.Pending)
+                            {
+                                <form asp-action="Respond" method="post" class="d-inline">
+                                    <input type="hidden" name="invitationId" value="@inv.InvitationId" />
+                                    <input type="hidden" name="accept" value="true" />
+                                    <button type="submit" class="btn btn-sm btn-primary">Qəbul et</button>
+                                </form>
+                                <form asp-action="Respond" method="post" class="d-inline">
+                                    <input type="hidden" name="invitationId" value="@inv.InvitationId" />
+                                    <input type="hidden" name="accept" value="false" />
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary">Rədd et</button>
+                                </form>
+                            }
+                            @if (inv.CanCheckIn)
+                            {
+                                <a asp-controller="Participation" asp-action="CheckIn" asp-route-invitationId="@inv.InvitationId" class="btn btn-sm btn-outline-primary">
+                                    Check-in nömrəsi: @inv.InvitationId
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

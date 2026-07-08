@@ -1,0 +1,28 @@
+﻿@using CodeAcademyEvents.DAL.Entities
+@model List<Location>
+@{
+    ViewData["Title"] = "Məkanlar";
+}
+
+<h2>Məkanlar</h2>
+<a asp-controller="Locations" asp-action="Create" class="btn btn-primary mb-3">+ Yeni məkan</a>
+
+<table class="table table-striped">
+    <thead><tr><th>Ad</th><th>Ünvan</th><th>Tutum</th><th></th></tr></thead>
+    <tbody>
+        @foreach (var loc in Model)
+        {
+            <tr>
+                <td>@loc.Name</td>
+                <td>@loc.Address</td>
+                <td>@loc.Capacity</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@loc.Id" class="btn btn-sm btn-outline-secondary">Redaktə</a>
+                    <form asp-action="Delete" asp-route-id="@loc.Id" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Silinsin?')">Sil</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

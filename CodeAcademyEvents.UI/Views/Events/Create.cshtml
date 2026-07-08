@@ -1,0 +1,74 @@
+﻿@model CodeAcademyEvents.UI.Models.EventViewModel
+@{
+    ViewData["Title"] = Model.Id == 0 ? "Yeni tədbir" : "Tədbiri redaktə et";
+    var action = Model.Id == 0 ? "Create" : "Edit";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-controller="Events" asp-action="@action" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label class="form-label">Başlıq</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Təsvir</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Tarix</label>
+        <input asp-for="Date" class="form-control" type="datetime-local" />
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Məkan</label>
+        <select asp-for="LocationId" class="form-select"
+                asp-items="@(new SelectList(Model.Locations, "Id", "Name"))">
+            <option value="">-- seçin --</option>
+        </select>
+        @if (Model.Locations == null || !Model.Locations.Any())
+        {
+            <div class="form-text text-warning">
+                Heç bir məkan yoxdur. Əvvəlcə <a asp-controller="Locations" asp-action="Create">yeni məkan</a> əlavə edin.
+            </div>
+        }
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Tədbir tipi</label>
+        <select asp-for="EventTypeId" class="form-select"
+                asp-items="@(new SelectList(Model.EventTypes, "Id", "Name"))">
+            <option value="">-- seçin --</option>
+        </select>
+        @if (Model.EventTypes == null || !Model.EventTypes.Any())
+        {
+            <div class="form-text text-warning">
+                Heç bir tədbir tipi yoxdur. Əvvəlcə <a asp-controller="EventTypes" asp-action="Create">yeni tip</a> əlavə edin.
+            </div>
+        }
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Təşkilatçı</label>
+        <select asp-for="OrganizerId" class="form-select"
+                asp-items="@(new SelectList(Model.Organizers, "Id", "FullName"))">
+            <option value="">-- seçin --</option>
+        </select>
+        @if (Model.Organizers == null || !Model.Organizers.Any())
+        {
+            <div class="form-text text-warning">
+                Heç bir təşkilatçı yoxdur. Əvvəlcə <a asp-controller="Organizers" asp-action="Create">yeni təşkilatçı</a> əlavə edin.
+            </div>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">Yadda saxla</button>
+    <a asp-controller="Events" asp-action="Index" class="btn btn-outline-secondary">Ləğv et</a>
+</form>

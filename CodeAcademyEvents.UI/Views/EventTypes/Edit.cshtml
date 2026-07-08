@@ -1,0 +1,20 @@
+﻿@using CodeAcademyEvents.DAL.Entities
+@model EventType
+@{
+    ViewData["Title"] = Model.Id == 0 ? "Yeni tip" : "Tipi redaktə et";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-controller="EventTypes" asp-action="Save" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label class="form-label">Ad</label>
+        <input asp-for="Name" class="form-control" placeholder="Məsələn: Konfrans, Seminar, Bootcamp" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Yadda saxla</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Ləğv et</a>
+</form>

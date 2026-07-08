@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CodeAcademy Events</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CodeAcademyEvents.UI.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark app-navbar sticky-top">
+            <div class="container">
+                <a class="navbar-brand" href="~/">
+                    <span class="brand-mark">CA</span>
+                    <span class="brand-text">CodeAcademy <strong>Events</strong></span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                        aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/">Ana səhifə</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Events">Tədbirlər</a>
+                        </li>
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/Admin/Dashboard">Admin Panel</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    İdarəetmə
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="adminMenu">
+                                    <li><h6 class="dropdown-header">Siyahılar</h6></li>
+                                    <li><a class="dropdown-item" href="~/Locations">Məkanlar</a></li>
+                                    <li><a class="dropdown-item" href="~/EventTypes">Tədbir tipləri</a></li>
+                                    <li><a class="dropdown-item" href="~/Organizers">Təşkilatçılar</a></li>
+                                    <li><a class="dropdown-item" href="~/Persons">Şəxslər</a></li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li><h6 class="dropdown-header">Əlavə et</h6></li>
+                                    <li><a class="dropdown-item" href="~/Events/Create">+ Yeni tədbir</a></li>
+                                    <li><a class="dropdown-item" href="~/Locations/Create">+ Yeni məkan</a></li>
+                                    <li><a class="dropdown-item" href="~/EventTypes/Create">+ Yeni tip</a></li>
+                                </ul>
+                            </li>
+                        }
+
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/Invitations/My">Dəvətlərim</a>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Participation/CheckIn">Check-in</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Home/Privacy">Privacy</a>
+                        </li>
+                    </ul>
+
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    @{
+        var showHero = ViewData["Title"] as string == "Home Page";
+    }
+
+    <main role="main" class="@(showHero ? "" : "pt-4")">
+        @if (!showHero)
+        {
+            <div class="container">
+                @RenderBody()
+            </div>
+        }
+        else
+        {
+            @RenderBody()
+        }
+    </main>
+
+    <footer class="app-footer">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center py-4">
+            <div class="footer-brand">
+                <span class="brand-mark brand-mark-sm">CA</span>
+                <span>CodeAcademy Events</span>
+            </div>
+            <div class="footer-links">
+                &copy; @DateTime.Now.Year CodeAcademy Events &middot;
+                <a href="~/Home/Privacy">Privacy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

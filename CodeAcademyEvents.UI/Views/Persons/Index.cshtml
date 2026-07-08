@@ -1,0 +1,29 @@
+﻿@using CodeAcademyEvents.DAL.Entities
+@model List<Person>
+@{
+    ViewData["Title"] = "Şəxslər";
+}
+
+<h2>Şəxslər (dəvət olunacaqlar)</h2>
+<a asp-controller="Persons" asp-action="Create" class="btn btn-primary mb-3">+ Yeni şəxs</a>
+
+<table class="table table-striped">
+    <thead><tr><th>Ad Soyad</th><th>Email</th><th>Telefon</th><th>Rol</th><th></th></tr></thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Name @p.Surname</td>
+                <td>@p.Email</td>
+                <td>@p.Phone</td>
+                <td>@p.Role</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-sm btn-outline-secondary">Redaktə</a>
+                    <form asp-action="Delete" asp-route-id="@p.Id" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Silinsin?')">Sil</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

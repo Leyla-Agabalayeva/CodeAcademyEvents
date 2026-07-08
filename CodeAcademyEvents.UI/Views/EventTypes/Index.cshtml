@@ -1,0 +1,26 @@
+﻿@using CodeAcademyEvents.DAL.Entities
+@model List<EventType>
+@{
+    ViewData["Title"] = "Tədbir tipləri";
+}
+
+<h2>Tədbir tipləri</h2>
+<a asp-controller="EventTypes" asp-action="Create" class="btn btn-primary mb-3">+ Yeni tip</a>
+
+<table class="table table-striped">
+    <thead><tr><th>Ad</th><th></th></tr></thead>
+    <tbody>
+        @foreach (var et in Model)
+        {
+            <tr>
+                <td>@et.Name</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@et.Id" class="btn btn-sm btn-outline-secondary">Redaktə</a>
+                    <form asp-action="Delete" asp-route-id="@et.Id" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Silinsin?')">Sil</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
