@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using CodeAcademyEvents.BLL.Mapper;
 using CodeAcademyEvents.BLL.Services.Implementations;
 using CodeAcademyEvents.BLL.Services.Interfaces;
@@ -33,6 +33,9 @@ namespace CodeAcademyEvents.UI
                 .AddEntityFrameworkStores<AppDbContext>();
 
             builder.Services.AddTransient<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, IdentityEmailSender>();
+
+            builder.Services.AddControllersWithViews()
+    .AddRazorRuntimeCompilation();
 
             // ---------- AutoMapper ----------
             builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfile>());
